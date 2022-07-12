@@ -1,0 +1,11 @@
+
+<mat-drawer-container fullscreen>
+    <app-toolbar [user]="userData" (toggleEmitter)="toggleSidenav($event)"></app-toolbar>
+
+    <mat-drawer #sidenav mode="side" opened>
+        <app-navbar [user]="userData"></app-navbar>
+    </mat-drawer>
+
+    <h1>texto probando - Aca va el router outlet</h1>
+</mat-drawer-container>
+
