@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import { addStudent, editStudent } from 'src/app/store/features/students/students.actions';
 import { selectStudentToEdit } from 'src/app/store/features/students/students.selectors';
 import { Student } from '../../interfaces/student.interface';
-import { StudentsService } from '../../services/students.service';
 
 @Component({
   selector: 'app-students-form',
@@ -24,7 +23,6 @@ export class StudentsFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private studentService: StudentsService,
     private router: Router,
     private _snackBar: MatSnackBar,
     private store: Store

@@ -1,3 +1,4 @@
+import { Course } from "src/app/courses/interfaces/course.interface";
 
 export interface Student {
     id: number;
@@ -5,5 +6,5 @@ export interface Student {
     lastname: string;
     email: string;
     birthday?: Date;
-    cursos?: [];
+    cursos?: Course [];
 }

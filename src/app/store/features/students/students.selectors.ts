@@ -13,6 +13,11 @@ export const selectLoading = createSelector(
     (state) => state.loading
 );
 
+export const selectStudentById = createSelector(
+    selectStudentsState,
+    (state) => state.studentDetails
+);
+
 export const selectStudentsSuccess = createSelector(
     selectStudents,
     selectLoading,
@@ -20,8 +25,9 @@ export const selectStudentsSuccess = createSelector(
 );
 
 export const selectStudentByIdSucces = createSelector(
-    selectStudentsState,
-    (state) => state.studentDetails
+    selectStudentById,
+    selectLoading,
+    (student, loading) => ({ student, loading })
 );
 
 export const selectStudentToEdit = createSelector(

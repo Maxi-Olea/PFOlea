@@ -39,6 +39,3 @@ export const studentToEdit = createAction(
   '[Students List] Student to edit',
   props<{ studentToEdit: Student | null }>()
 );
-
-
- 

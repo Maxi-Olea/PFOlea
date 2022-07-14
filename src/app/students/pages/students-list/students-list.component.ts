@@ -7,8 +7,8 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { User } from 'src/app/core/interfaces/user.interface';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { deleteStudent, loadStudents, loadStudentSuccess, studentToEdit } from 'src/app/store/features/students/students.actions';
-import { selectStudents, selectStudentsSuccess } from 'src/app/store/features/students/students.selectors';
+import { deleteStudent, loadStudents, studentToEdit } from 'src/app/store/features/students/students.actions';
+import { selectStudentsSuccess } from 'src/app/store/features/students/students.selectors';
 import { Student } from '../../interfaces/student.interface';
 
 @Component({
@@ -19,7 +19,7 @@ import { Student } from '../../interfaces/student.interface';
 export class StudentsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   subscriptions: Subscription = new Subscription();
-  loading:boolean = false;
+  loading:boolean = true;
 
   @ViewChild(MatTable, { static: false }) table!: MatTable<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -40,13 +40,12 @@ export class StudentsListComponent implements OnInit, AfterViewInit, OnDestroy {
     private store: Store
   ) { 
     this.store.select(selectStudentsSuccess).subscribe((data) => {    
-      this.studentsData = [...data.students]; // data es 'readonly' hago una copia de su contenido
-      this.dataSource.data = this.studentsData;
+      this.dataSource.data = [...data.students]; // data es 'readonly' hago una copia de su contenido
+      this.loading = data.loading;
     }); //recupero los estudiantes desde el store
   }
 
   ngOnInit(): void {
-    this.loading = true;
     this.getUserData();
     this.getStudents();
   }
@@ -64,7 +63,7 @@ export class StudentsListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getStudents() {
-    this.store.dispatch({ type: '[Students List] Load Students' });
+    this.store.dispatch(loadStudents());
   }
 
   onClickDetails(student:Student) {
@@ -73,6 +72,7 @@ export class StudentsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onDeleteStudent(id:number) {
     this.store.dispatch(deleteStudent({ id }));
+    this._snackBar.open('Se eliminó el alumno', 'Cerrar');
   }
 
   onClickAdd() {
@@ -81,7 +81,7 @@ export class StudentsListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onClickEdit(student:Student) { //Actualiza el estudiante a editar en el servicio
-    this.store.dispatch(studentToEdit({ studentToEdit: student }))
+    this.store.dispatch(studentToEdit({ studentToEdit: student }));
     this.router.navigate(['dashboard/students/form']);
   }
 

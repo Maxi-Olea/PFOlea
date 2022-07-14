@@ -1,4 +1,6 @@
-<div class="container py-2">
+<app-loading-spinner *ngIf="loading"></app-loading-spinner>
+
+<div *ngIf="!loading" class="container py-2">
     
     <button [ngClass]="user!.rol === 'admin' ? '' : 'd-none'" (click)="onClickAdd()" class="mb-2" mat-fab color="primary" aria-label="add button" matTooltip="Agregar un nuevo estudiante">
       <mat-icon>add</mat-icon>
@@ -47,7 +49,7 @@
       </mat-paginator>
     </div>
          
-    <div *ngIf="!loading && studentsData.length === 0" class="container mt-2 d-flex justify-content-center">
+    <div *ngIf="!loading && dataSource.data.length === 0" class="container mt-2 d-flex justify-content-center">
       <h3 class="fw-semibold text-muted">No existen alumnos a listar</h3>
     </div> 
   </div>
