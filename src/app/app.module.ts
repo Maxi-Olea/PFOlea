@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { BrowserModule } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
-import { SharedModule } from './shared/shared.module';
-import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreModule } from '@ngrx/store';
+
+import { CoreModule } from './core/core.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { SharedModule } from './shared/shared.module';
+
+import { AppComponent } from './app.component';
+import { ROOT_REDUCERS } from './store/app.state';
+import { StudentsEffects } from './store/features/students/students.effects';
 
 @NgModule({
   declarations: [
@@ -23,9 +26,9 @@ import { DashboardModule } from './dashboard/dashboard.module';
     BrowserAnimationsModule,
     HttpClientModule,
     SharedModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot(ROOT_REDUCERS),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([StudentsEffects]),
 
     CoreModule,
     DashboardModule
