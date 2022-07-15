@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Student } from 'src/app/students/interfaces/student.interface';
-import { addStudent, loadStudentById, loadStudentByIdSuccess, loadStudents, loadStudentSuccess, studentToEdit } from './students.actions';
+import { addStudent, editStudent, loadStudentById, loadStudentByIdSuccess, loadStudents, loadStudentSuccess, studentToEdit } from './students.actions';
 
 export interface StudentState {
     students: Student[],
@@ -33,6 +33,9 @@ export const studentsReducer = createReducer(
     return {...state, students, loading:false}
   }),
   on(addStudent, (state, { student }) => {
+    return {...state, ...student}
+  }),
+  on(editStudent, (state, { student }) => {
     return {...state, ...student}
   }),
   on(loadStudentById, (state) => {
