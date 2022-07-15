@@ -30,7 +30,7 @@ export const studentsReducer = createReducer(
     return {...state, loading:true}
   }),
   on(loadStudentSuccess, (state, { students }) => {
-    return {...state, students, loading: false}
+    return {...state, students, loading:false}
   }),
   on(addStudent, (state, { student }) => {
     return {...state, ...student}

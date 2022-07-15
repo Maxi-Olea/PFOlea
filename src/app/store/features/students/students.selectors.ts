@@ -33,5 +33,4 @@ export const selectStudentByIdSucces = createSelector(
 export const selectStudentToEdit = createSelector(
     selectStudentsState,
     (state) => state.studentToEdit
-)
- 
+);

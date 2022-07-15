@@ -16,6 +16,7 @@ import { AppComponent } from './app.component';
 import { ROOT_REDUCERS } from './store/app.state';
 import { StudentsEffects } from './store/features/students/students.effects';
 import { CoursesEffects } from './store/features/courses/courses.effects';
+import { UsersEffects } from './store/features/users/users.effects';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { CoursesEffects } from './store/features/courses/courses.effects';
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     EffectsModule.forRoot([
       StudentsEffects,
-      CoursesEffects
+      CoursesEffects,
+      UsersEffects
     ]),
 
     CoreModule,
