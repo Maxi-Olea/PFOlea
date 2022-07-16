@@ -1,8 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/interfaces/user.interface';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { selectUserData } from 'src/app/store/auth/auth.selector';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +20,8 @@ export class DashboardComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav; 
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private store: Store
   ) { }
 
   ngOnInit(): void {
@@ -27,10 +30,10 @@ export class DashboardComponent implements OnInit {
 
   getUserData() {
     this.subscriptions.add(
-      this.authService.getUserData().subscribe((userData) => {
+      this.store.select(selectUserData).subscribe((userData => {
         this.userData = userData;
-      })
-    );
+      }))
+    )
   }
 
   toggleSidenav(e: boolean) {

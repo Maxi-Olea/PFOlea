@@ -3,10 +3,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { checkAuth } from 'src/app/store/auth/auth.actions';
+import { selectIsAuth } from 'src/app/store/auth/auth.selector';
+import { loadUsers } from 'src/app/store/features/users/users.actions';
 import { UsersDialogComponent } from '../../components/users-dialog/users-dialog.component';
-import { User } from '../../interfaces/user.interface';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -20,10 +22,10 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private _snackBar: MatSnackBar,
     private router: Router,
-    private authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _snackBar: MatSnackBar,
+    private store: Store
   ) { 
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
@@ -32,40 +34,35 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.openDialog();
+    this.store.dispatch(loadUsers())
+    this.isAuth();
   }
 
   openDialog() {
     this.dialog.open(UsersDialogComponent);
   }
 
-  isLoggedIn() {
-    this.subscription.add(
-      this.authService.getIsLoggedIn().subscribe((res) => {
-        if(res) {
-          this.router.navigate(['/dashboard']);
-        }
-      })
-    );
+  isAuth() {
+    this.store.select(selectIsAuth).subscribe(isAuth => {
+      if(isAuth) { //Si devuelve un usuario vaidado
+        this.router.navigate(['/dashboard']);
+      } else {
+        this.openDialog();
+      }
+    });
   }
 
   login() {
     let username = this.loginForm.get('username')?.value
     let password = this.loginForm.get('password')?.value
-    let users: User[]= [];
-    this.subscription.add(
-      this.authService.getUsers().subscribe((usersdata) => {
-        users = usersdata;
-        let user = users.find((usr) => usr.username === username)
-        if(user && user.password === password) {
-          this.authService.setIsLoggedIn(true, user);
-          this.router.navigate(['dashboard']);
-        } else {
-          this.authService.setIsLoggedIn(false, null);
-          this._snackBar.open('El usuario y/o la contraseña ingresadas son incorrectas', 'Cerrar')
-        }
-      })
-    );
+    this.store.dispatch(checkAuth({ username, password }));
+    this.store.select(selectIsAuth).subscribe(isAuth => {
+      if(isAuth) { //Si devuelve un usuario vaidado
+        this.router.navigate(['/dashboard']);
+      } else {
+        this._snackBar.open('El usuario y/o la contraseña ingresados son incorrectas', 'Cerrar');
+      }      
+    });
   }
 
 }

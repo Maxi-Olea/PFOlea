@@ -7,11 +7,10 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/interfaces/user.interface';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { selectUserData } from 'src/app/store/auth/auth.selector';
 import { courseToEdit, deleteCourse, loadCourses } from 'src/app/store/features/courses/courses.actions';
 import { selectCoursesSuccess } from 'src/app/store/features/courses/courses.selectors';
 import { Course } from '../../interfaces/course.interface';
-import { CourseService } from '../../services/course.service';
 
 
 @Component({
@@ -34,8 +33,6 @@ export class CoursesListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private titleService: Title,
-    private authService: AuthService,
-    private courseService: CourseService,
     private router: Router,
     private _snackBar: MatSnackBar,
     private store: Store
@@ -60,7 +57,7 @@ export class CoursesListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getUserData() {
     this.subscriptions.add(
-      this.authService.getUserData().subscribe((userData) => {
+      this.store.select(selectUserData).subscribe((userData) => {
         this.user = userData;
       })
     );

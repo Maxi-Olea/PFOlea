@@ -1,31 +1,25 @@
 import { createReducer, on } from "@ngrx/store";
+import { AuthUser } from "src/app/core/interfaces/authUser.interface";
 
-import { User } from "src/app/core/interfaces/user.interface";
-import { loadAuth, loadAuthFailure, loadAuthSucces, retrievedUsersList } from "./auth.actions";
+import { loadAuth, loadAuthSuccess } from "./auth.actions";
 
-export interface State {
-    user: User
+export interface AuthState {
+    isAuth: AuthUser
 }
 
-export const authFeatureKey = 'auth';
 
 
-export const initialState: State = {
-    user: {
-        id: 1,
-        username:'',
-        password:'',
-        name:'',
-        lastname:'',
-        rol:''
+export const initialState: AuthState = {
+    isAuth: {
+        isAuth: false,
+        userData: null
     }
 };
 
 export const authReducer = createReducer(
     initialState,
     on(loadAuth, state => state),
-    on(loadAuthSucces, (state, { user }) => {
-        return{ ...state, user }
-    }),
-    on(loadAuthFailure, (state, action) => state)
+    on(loadAuthSuccess, (state, { isAuth }) => {
+        return{ ...state, isAuth }
+    })
 );

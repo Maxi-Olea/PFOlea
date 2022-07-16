@@ -1,6 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of, throwError } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable, of, throwError } from 'rxjs';
+import { selectUsersSuccess } from 'src/app/store/features/users/users.selector';
+import { AuthUser } from '../interfaces/authUser.interface';
 import { User } from '../interfaces/user.interface';
 
 @Injectable({
@@ -8,22 +11,35 @@ import { User } from '../interfaces/user.interface';
 })
 export class AuthService {
 
-  isLoggedIn: boolean = false;
-
-  //userData!: User | null;
+  baseUrl: string = 'https://62aa1e323b314385544268cd.mockapi.io/users/';
 
   userData: User | null = {
     id: 1,
     username: 'molea',
     name: 'Maxi',
-    lastname: 'Olea',
+    lastname: 'Olea', 
     rol: 'admin'
   };
 
-  baseUrl: string = 'https://62aa1e323b314385544268cd.mockapi.io/users/';
+  // authUser: AuthUser = {
+  //   isAuth: false,
+  //   userData: null
+  // };
+
+  authUser: AuthUser = {
+    isAuth: true,
+    userData: {
+      id: 1,
+      username: 'molea',
+      name: 'Maxi',
+      lastname: 'Olea', 
+      rol: 'admin'
+    }
+  };
 
   constructor(
-    private _http: HttpClient
+    private _http: HttpClient,
+    private store: Store
   ) { }
 
   private handleError(error: HttpErrorResponse) {
@@ -34,37 +50,59 @@ export class AuthService {
     return throwError('Error de comunicación Http');
   }
 
-  getIsLoggedIn(): Observable<boolean> {
-    return of(this.isLoggedIn)
+
+  getAuthUser(): Observable<AuthUser> {
+    return of(this.authUser);
   }
 
   setIsLoggedIn(isLogged: boolean, user: User | null) {
-    this.isLoggedIn = isLogged;
     if(user) {
-      this.userData = {
-        id: user.id,
-        name: user.name,
-        lastname: user.lastname,
-        username: user.username,
-        email: user.email,
-        rol: user.rol
-      }
+      this.authUser = {
+        isAuth: isLogged,
+        userData: {
+          id: user.id,
+          name: user.name,
+          lastname: user.lastname,
+          username: user.username,
+          email: user.email,
+          rol: user.rol
+        } 
+      };
     } else {
-      this.userData = user;
+      this.authUser = {
+        isAuth: isLogged,
+        userData: user
+      };
     }
   }
 
-  logOff() {
-    this.isLoggedIn = false;
-  }
-
-  getUsers():Observable<User[]> { //Devuelve un array de los usuarios y sus roles
-    return this._http.get<User[]>(this.baseUrl)
-    .pipe(catchError(this.handleError));
+  logOut(): Observable<boolean> {
+    this.authUser = {
+      isAuth: false,
+      userData: null
+    };
+    return of(true);
   }
 
   getUserData():Observable<User | null> {
     return of(this.userData);
   }
+
+  login(username: string, password:string): Observable<AuthUser> {
+    this.store.select(selectUsersSuccess).subscribe((usersData) => {
+      const users = usersData.users;
+      console.log('cargo los usuarios?', users);
+      
+      let user = users.find((usr) => usr.username === username);
+      if(user && user.password === password) {
+        this.setIsLoggedIn(true, user);
+      } else {
+        this.setIsLoggedIn(false, null);
+      }
+    });
+    return this.getAuthUser();
+  }
+
+  
 
 }

@@ -7,7 +7,7 @@ export interface StudentState {
     loading: boolean,
     studentDetails: Student
     studentToEdit: Student | null
-};
+}
 
 
 export const initialState: Readonly<StudentState> = {

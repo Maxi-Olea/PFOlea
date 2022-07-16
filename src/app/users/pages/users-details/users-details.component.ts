@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/interfaces/user.interface';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { selectUserData } from 'src/app/store/auth/auth.selector';
 import { deleteUser, loadUsersById, userToEdit } from 'src/app/store/features/users/users.actions';
 import { selectUserByIdSuccess } from 'src/app/store/features/users/users.selector';
 
@@ -27,7 +27,6 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService,
     private _snackBar: MatSnackBar,
     private store: Store
   ) { }
@@ -41,7 +40,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
 
   getUserData() {
     this.subscriptions.add(
-      this.authService.getUserData().subscribe((userData) => {
+      this.store.select(selectUserData).subscribe((userData) => {
         this.usr = userData;
       })
     );

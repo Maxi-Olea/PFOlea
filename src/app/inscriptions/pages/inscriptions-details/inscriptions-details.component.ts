@@ -7,12 +7,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/interfaces/user.interface';
-import { AuthService } from 'src/app/core/services/auth.service';
 import { Course } from 'src/app/courses/interfaces/course.interface';
+import { selectUserData } from 'src/app/store/auth/auth.selector';
 import { editStudent, loadStudentById, studentToEdit } from 'src/app/store/features/students/students.actions';
 import { selectStudentByIdSucces } from 'src/app/store/features/students/students.selectors';
 import { Student } from 'src/app/students/interfaces/student.interface';
-import { StudentsService } from 'src/app/students/services/students.service';
 
 
 @Component({
@@ -20,7 +19,7 @@ import { StudentsService } from 'src/app/students/services/students.service';
   templateUrl: './inscriptions-details.component.html',
   styleUrls: ['./inscriptions-details.component.scss']
 })
-export class InscriptionsDetailsComponent implements OnInit {
+export class InscriptionsDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   subscriptions: Subscription = new Subscription();
 
@@ -40,7 +39,6 @@ export class InscriptionsDetailsComponent implements OnInit {
     private titleService: Title,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService,
     private _snackBar: MatSnackBar,
     private store: Store
   ) { }
@@ -59,7 +57,7 @@ export class InscriptionsDetailsComponent implements OnInit {
 
   getUserData() {
     this.subscriptions.add(
-      this.authService.getUserData().subscribe((userData) => {
+      this.store.select(selectUserData).subscribe((userData) => {
         this.user = userData;
       })
     );
@@ -70,20 +68,19 @@ export class InscriptionsDetailsComponent implements OnInit {
     this.route.params.subscribe(paramsId => {
       const id: number = paramsId['id'];
       this.store.dispatch(loadStudentById({ id }));
-      this.store.select(selectStudentByIdSucces).subscribe((studentData) => {
-        this.student = { ...studentData.student };
-        this.dataSource.data = this.student.cursos!;
-        this.loading = studentData.loading;
-      });
+      this.subscriptions.add(
+        this.store.select(selectStudentByIdSucces).subscribe((studentData) => {
+          this.student = { ...studentData.student };
+          this.dataSource.data = this.student.cursos!;
+          this.loading = studentData.loading;
+        })
+      );
     });
   }
 
   onClickAdd() {
     this.store.dispatch(studentToEdit({ studentToEdit: this.student }));
     this.router.navigate(['dashboard/inscriptions/form']);
-    // this.studentsService.setStudentToEdit(this.student)
-    // .then(() => this.router.navigate(['dashboard/inscriptions/addinscription']))
-    // .catch((error) => this._snackBar.open(error.message, 'Cerrar'))
   }
 
   onClickDetails(course: Course) {
@@ -102,17 +99,7 @@ export class InscriptionsDetailsComponent implements OnInit {
     this.student.cursos = courses;    
     this.store.dispatch(editStudent({ id: this.student.id, student:this.student }));
     this._snackBar.open(`Se actualizó la información de los cursos de ${this.student.name} ${this.student.lastname}`, 'Ok');
-    // this.studentsService.editStudentById(this.student.id, this.student).subscribe((res) => {
-    //   this._snackBar.open(`Se actualizó la información de los cursos de ${res.name} ${res.lastname}`, 'Ok');
-    // }, (error) => {
-    //   this._snackBar.open(`${error} - No se pudo actualizar la información de los cursos del alumno`, 'Cerrar');
-    // })
   }
-
-  // updateStudent() {
-  //   let indexOfStudent = this.studentsData.findIndex((x) => x.id === this.student.id);
-  //   this.studentsData[indexOfStudent] = this.student;
-  // }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

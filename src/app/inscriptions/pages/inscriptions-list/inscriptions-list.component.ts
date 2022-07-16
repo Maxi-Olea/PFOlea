@@ -7,11 +7,10 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/interfaces/user.interface';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { selectUserData } from 'src/app/store/auth/auth.selector';
 import { loadStudents } from 'src/app/store/features/students/students.actions';
 import { selectStudentsSuccess } from 'src/app/store/features/students/students.selectors';
 import { Student } from 'src/app/students/interfaces/student.interface';
-import { StudentsService } from 'src/app/students/services/students.service';
 
 
 @Component({
@@ -19,7 +18,7 @@ import { StudentsService } from 'src/app/students/services/students.service';
   templateUrl: './inscriptions-list.component.html',
   styleUrls: ['./inscriptions-list.component.scss']
 })
-export class InscriptionsListComponent implements OnInit {
+export class InscriptionsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   subscriptions: Subscription = new Subscription();
   loading: boolean = false;
@@ -35,7 +34,6 @@ export class InscriptionsListComponent implements OnInit {
 
   constructor(
     private titleService: Title,
-    private authService: AuthService,
     private router: Router,
     private _snackBar: MatSnackBar,
     private store: Store
@@ -54,20 +52,22 @@ export class InscriptionsListComponent implements OnInit {
 
   getUserData() {
     this.subscriptions.add(
-      this.authService.getUserData().subscribe((userData) => {
+      this.store.select(selectUserData).subscribe((userData) => {
         this.user = userData;
       })
     );
   }
 
   getStudents() {
-    this.store.select(selectStudentsSuccess).subscribe((studentsData) => {
-      if(studentsData.students.length === 0) { //Si no estan cargados los alumnos en el store       
-        this.store.dispatch(loadStudents());
-      }
-      this.dataSource.data = studentsData.students;
-      this.loading = studentsData.loading;
-    })
+    this.subscriptions.add(
+      this.store.select(selectStudentsSuccess).subscribe((studentsData) => {
+        if(studentsData.students.length === 0) { //Si no estan cargados los alumnos en el store       
+          this.store.dispatch(loadStudents());
+        }
+        this.dataSource.data = studentsData.students;
+        this.loading = studentsData.loading;
+      })
+    );    
   }
 
   onClickDetails(student: Student) {

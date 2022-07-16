@@ -7,8 +7,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/interfaces/user.interface';
 import { addUser, editUser } from 'src/app/store/features/users/users.actions';
-import { selectUsersSuccess, selectUserToEdit } from 'src/app/store/features/users/users.selector';
-import { UsersService } from '../../services/users.service';
+import { selectUserToEdit } from 'src/app/store/features/users/users.selector';
 
 interface Rol {
   value: string;
@@ -27,14 +26,12 @@ export class UsersFormComponent implements OnInit, OnDestroy {
   userForm: FormGroup
 
   userToEdit!:User | null;
-  //users!:User[];
 
   roles:Rol[] = [{value:'admin', viewValue:'Administrador'}, {value:'user', viewValue:'Usuario'}];
 
   constructor(
     private titleService: Title,
     private fb: FormBuilder,
-    private usersService: UsersService,
     private _snackBar: MatSnackBar,
     private router: Router,
     private store: Store
@@ -56,9 +53,11 @@ export class UsersFormComponent implements OnInit, OnDestroy {
   }
 
   getUserToEdit() {
-    this.store.select(selectUserToEdit).subscribe((user) => {
-      this.userToEdit = user;      
-      })
+    this.subscriptions.add(
+      this.store.select(selectUserToEdit).subscribe((user) => {
+        this.userToEdit = user;      
+        })
+    );
       if(this.userToEdit) {
         this.userForm.get('name')?.patchValue(this.userToEdit.name)
         this.userForm.get('lastname')?.patchValue(this.userToEdit.lastname)

@@ -38,9 +38,11 @@ export class CoursesFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.titleService.setTitle('Formulario de Curso');
-    this.store.select(selectCourseToEdit).subscribe((res) => {
-      this.courseToEdit = res;      
-    })
+    this.subscriptions.add(
+      this.store.select(selectCourseToEdit).subscribe((res) => {
+        this.courseToEdit = res;      
+      })
+    );
     if(this.courseToEdit) {
       this.courseForm.get('course')?.patchValue(this.courseToEdit.course)
       this.courseForm.get('professor')?.patchValue(this.courseToEdit.professor)

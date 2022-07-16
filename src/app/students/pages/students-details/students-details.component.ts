@@ -4,12 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/interfaces/user.interface';
-import { AuthService } from 'src/app/core/services/auth.service';
 import { Course } from 'src/app/courses/interfaces/course.interface';
-import { deleteStudent, loadStudentById, studentToEdit } from 'src/app/store/features/students/students.actions';
+import { selectUserData } from 'src/app/store/auth/auth.selector';
+import { deleteStudent, editStudent, loadStudentById, studentToEdit } from 'src/app/store/features/students/students.actions';
 import { selectStudentByIdSucces } from 'src/app/store/features/students/students.selectors';
 import { Student } from '../../interfaces/student.interface';
-import { StudentsService } from '../../services/students.service';
 
 @Component({
   selector: 'app-students-details',
@@ -27,8 +26,6 @@ export class StudentsDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService,
-    private studentService: StudentsService,
     private _snackBar: MatSnackBar,
     private store: Store
   ) { }
@@ -45,7 +42,7 @@ export class StudentsDetailsComponent implements OnInit, OnDestroy {
 
   getUserData() {
     this.subscriptions.add(
-      this.authService.getUserData().subscribe((userData) => {
+      this.store.select(selectUserData).subscribe((userData) => {
         this.user = userData;
       })
     );
@@ -71,9 +68,10 @@ export class StudentsDetailsComponent implements OnInit, OnDestroy {
   }
 
   onClickInscription() {
-    this.studentService.setStudentToEdit(this.student)
-    .then(() => this.router.navigate(['dashboard/inscriptions/addinscription']))
-    .catch((error) => this._snackBar.open(error.message, 'Cerrar'))
+    // this.studentService.setStudentToEdit(this.student)
+    // .then(() => this.router.navigate(['dashboard/inscriptions/addinscription']))
+    // .catch((error) => this._snackBar.open(error.message, 'Cerrar'))
+    this.store.dispatch(editStudent({ id: this.student.id, student: this.student }));
   }
 
   onDeleteInscription(course:Course) {
@@ -84,11 +82,7 @@ export class StudentsDetailsComponent implements OnInit, OnDestroy {
     let index = courses.findIndex((x) => x.id === course.id);
     courses.splice(index,1);
     this.student.cursos = courses;
-    this.studentService.editStudentById(this.student.id, this.student).subscribe((res) => {
-      this._snackBar.open(`Se actualizó la información de los cursos de ${res.name} ${res.lastname}`, 'Ok');
-    }, (error) => {
-      this._snackBar.open(`${error} - No se pudo actualizar la información de los cursos del alumno`, 'Cerrar');
-    })
+    this.store.dispatch(editStudent({ id: this.student.id, student: this.student }));
   }
 
   ngOnDestroy(): void {

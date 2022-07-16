@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/interfaces/user.interface';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { selectUserData } from 'src/app/store/auth/auth.selector';
 import { deleteUser, loadUsers, userToEdit } from 'src/app/store/features/users/users.actions';
 import { selectUsersSuccess } from 'src/app/store/features/users/users.selector';
 
@@ -32,7 +32,6 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
   
   constructor(
     private titleService: Title,
-    private authService: AuthService,
     private router: Router,
     private _snackBar: MatSnackBar,
     private store: Store
@@ -51,7 +50,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getUserData() {
     this.subscriptions.add(
-      this.authService.getUserData().subscribe((userData) => {
+      this.store.select(selectUserData).subscribe((userData) => {
         this.usr = userData;
       })
     );
@@ -59,10 +58,12 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getUsers() {
     this.store.dispatch(loadUsers())
-    this.store.select(selectUsersSuccess).subscribe((users) => {
-    this.dataSource.data = users.users;
-    this.loading = users.loading;      
-    })
+    this.subscriptions.add(
+      this.store.select(selectUsersSuccess).subscribe((users) => {
+      this.dataSource.data = users.users;
+      this.loading = users.loading;      
+      })
+    );
   }
 
   onClickAdd() {
