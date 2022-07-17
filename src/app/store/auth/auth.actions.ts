@@ -2,6 +2,16 @@ import { createAction, props } from "@ngrx/store";
 import { AuthUser } from "src/app/core/interfaces/authUser.interface";
 import { User } from "src/app/users/interfaces/user.interface";
 
+export const loadTitle = createAction(
+    '[Title] Load Title',
+    props<{ title: string }>()
+);
+
+export const setTitle = createAction(
+    '[Title] Get title',
+    props<{ title: string }>()
+);
+
 export const loadAuth = createAction(
     '[Auth] Load Auth'
 );

@@ -38,6 +38,7 @@ export class StudentsListComponent implements OnInit, AfterViewInit, OnDestroy {
     private _snackBar: MatSnackBar,
     private store: Store
   ) { 
+    // store.dispatch(setTitle({title: 'Alumnos'}))
     this.store.select(selectStudentsSuccess).subscribe((data) => {    
       this.dataSource.data = [...data.students]; // data es 'readonly' hago una copia de su contenido
       this.loading = data.loading;

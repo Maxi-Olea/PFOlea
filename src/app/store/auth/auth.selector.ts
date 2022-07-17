@@ -18,3 +18,8 @@ export const selectAuthSuccess = createSelector(
     selectUserData,
     (isAuth, userData) => ({ isAuth, userData })
 );
+
+export const selectTitle = createSelector(
+    selectAuthState,
+    (state) => state.title
+);

@@ -1,19 +1,21 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { User } from 'src/app/users/interfaces/user.interface';
-import { AuthService } from 'src/app/core/services/auth.service';
 import { logOut } from 'src/app/store/auth/auth.actions';
+import { selectTitle } from 'src/app/store/auth/auth.selector';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss']
 })
-export class ToolbarComponent {
+export class ToolbarComponent implements OnInit {
+
+  title$: Observable<any> = new Observable()
 
   constructor(
-    private authService: AuthService,
     private router: Router,
     private store: Store
   ) { }
@@ -22,6 +24,10 @@ export class ToolbarComponent {
   @Output() toggleEmitter = new EventEmitter<boolean>();
 
   isOpen: boolean = true;
+
+  ngOnInit(): void {
+    this.title$ = this.store.select(selectTitle);
+  }
 
   toggleSidenav() {
     this.isOpen = !this.isOpen;

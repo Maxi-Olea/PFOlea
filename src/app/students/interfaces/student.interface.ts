@@ -1,5 +1,3 @@
-import { Course } from "src/app/courses/interfaces/course.interface";
-
 
 export interface Student {
     id: number;
@@ -9,5 +7,4 @@ export interface Student {
     profile?: string;
     gender?: string;
     birthday?: Date;
-    //cursos?: Course [];
 }
