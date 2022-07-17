@@ -5,7 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { User } from 'src/app/core/interfaces/user.interface';
+import { User } from 'src/app/users/interfaces/user.interface';
 import { addUser, editUser } from 'src/app/store/features/users/users.actions';
 import { selectUserToEdit } from 'src/app/store/features/users/users.selector';
 

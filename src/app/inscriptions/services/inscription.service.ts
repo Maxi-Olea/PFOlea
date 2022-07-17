@@ -27,6 +27,11 @@ export class InscriptionService {
     .pipe(catchError(this.handleError));
   }
 
+  getInscriptionsByCourseId(courseId: number): Observable<Inscription[]> {
+    return this._http.get<Inscription[]>(`${this.baseUrl}?courseId=${courseId}`)
+    .pipe(catchError(this.handleError));
+  }
+
   addInscription(inscription: Inscription): Observable<Inscription> {
     return this._http.post<Inscription>(this.baseUrl, inscription)
     .pipe(catchError(this.handleError));

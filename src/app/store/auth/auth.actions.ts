@@ -1,6 +1,6 @@
 import { createAction, props } from "@ngrx/store";
 import { AuthUser } from "src/app/core/interfaces/authUser.interface";
-import { User } from "src/app/core/interfaces/user.interface";
+import { User } from "src/app/users/interfaces/user.interface";
 
 export const loadAuth = createAction(
     '[Auth] Load Auth'

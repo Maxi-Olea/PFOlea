@@ -1,15 +1,17 @@
 import { createReducer, on } from "@ngrx/store";
 import { Inscription } from "src/app/inscriptions/interfaces/inscription.interface";
-import { addInscription, loadInscriptions, loadInscriptionsSuccess } from "./inscriptions.actions";
+import { addInscription, loadInscriptions, loadInscriptionsByCourse, loadInscriptionsByCourseSuccess, loadInscriptionsSuccess } from "./inscriptions.actions";
 
 export interface InscriptionState {
     loading: boolean,
-    inscriptions: Inscription[]
+    inscriptions: Inscription[],
+    inscriptionsByCourse: Inscription[]
 }
 
 export const initialState: Readonly<InscriptionState> = {
     loading: true,
-    inscriptions: []
+    inscriptions: [],
+    inscriptionsByCourse: []
 }
 
 export const inscriptionsReducer = createReducer(
@@ -19,6 +21,12 @@ export const inscriptionsReducer = createReducer(
     }),
     on(loadInscriptionsSuccess, (state, { inscriptions }) => {
         return {...state, inscriptions, loading:false}
+    }),
+    on(loadInscriptionsByCourse, (state) => {
+        return {...state, loading:true}
+    }),
+    on(loadInscriptionsByCourseSuccess, (state, { inscriptionsByCourse }) => {
+        return {...state, inscriptionsByCourse, loading:false}
     }),
     on(addInscription, (state, { inscription }) => {
         return {...state, ...inscription}

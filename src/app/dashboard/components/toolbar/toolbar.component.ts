@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { User } from 'src/app/core/interfaces/user.interface';
+import { User } from 'src/app/users/interfaces/user.interface';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { logOut } from 'src/app/store/auth/auth.actions';
 

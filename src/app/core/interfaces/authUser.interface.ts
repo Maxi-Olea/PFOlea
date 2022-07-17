@@ -1,4 +1,4 @@
-import { User } from "./user.interface";
+import { User } from "../../users/interfaces/user.interface";
 
 export interface AuthUser {
     isAuth: boolean,

@@ -5,7 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { User } from 'src/app/core/interfaces/user.interface';
+import { User } from 'src/app/users/interfaces/user.interface';
 import { Course } from 'src/app/courses/interfaces/course.interface';
 import { selectUserData } from 'src/app/store/auth/auth.selector';
 import { loadCourses } from 'src/app/store/features/courses/courses.actions';

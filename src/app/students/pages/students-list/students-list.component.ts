@@ -5,7 +5,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { User } from 'src/app/core/interfaces/user.interface';
+import { User } from 'src/app/users/interfaces/user.interface';
 import { selectUserData } from 'src/app/store/auth/auth.selector';
 import { deleteStudent, loadStudents, studentToEdit } from 'src/app/store/features/students/students.actions';
 import { selectStudentsSuccess } from 'src/app/store/features/students/students.selectors';

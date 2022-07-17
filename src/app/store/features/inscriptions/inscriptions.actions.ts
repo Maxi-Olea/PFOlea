@@ -11,6 +11,16 @@ export const loadInscriptionsSuccess = createAction(
     props<{ inscriptions: Inscription[] }>()
 );
 
+export const loadInscriptionsByCourse = createAction(
+    '[Inscriptions List] Load Inscriptions by Course id',
+    props<{ id: number }>()
+);
+
+export const loadInscriptionsByCourseSuccess = createAction(
+    '[Inscriptions List] Load Inscriptions by Course id Success',
+    props<{ inscriptionsByCourse: Inscription[] }>()
+);
+
 export const addInscription = createAction(
     '[Inscriptions List] Add inscription to a Course',
     props<{ inscription: Inscription }>()

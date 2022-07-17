@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, of, throwError } from 'rxjs';
 import { selectUsersSuccess } from 'src/app/store/features/users/users.selector';
 import { AuthUser } from '../interfaces/authUser.interface';
-import { User } from '../interfaces/user.interface';
+import { User } from '../../users/interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'

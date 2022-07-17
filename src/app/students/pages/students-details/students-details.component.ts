@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { User } from 'src/app/core/interfaces/user.interface';
+import { User } from 'src/app/users/interfaces/user.interface';
 import { Course } from 'src/app/courses/interfaces/course.interface';
 import { selectUserData } from 'src/app/store/auth/auth.selector';
 import { deleteStudent, editStudent, loadStudentById, studentToEdit } from 'src/app/store/features/students/students.actions';

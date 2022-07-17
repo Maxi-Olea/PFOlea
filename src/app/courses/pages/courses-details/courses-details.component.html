@@ -56,11 +56,11 @@
                 </mat-card-header>
                 <mat-card-content>
                     <mat-list>                    
-                        <div class="row" *ngFor="let student of studentsByCourse">
+                        <div class="row" *ngFor="let inscription of inscriptionsByCourse">
                             <mat-list-item>
                                 <div class="col-1"><mat-icon>school</mat-icon></div>
-                                <div class="col-10">{{ student.name }} {{student.lastname}}</div>
-                                <div [ngClass]="user!.rol === 'admin' ? '' : 'd-none'" class="col-1" (click)="onDeleteInscription(student)">
+                                <div class="col-10">{{ inscription.student }}</div>
+                                <div [ngClass]="user!.rol === 'admin' ? '' : 'd-none'" class="col-1" (click)="onDeleteInscription(inscription)">
                                     <mat-icon matTooltip="Eliminar inscripcion del alumno">delete</mat-icon>
                                 </div>
                             </mat-list-item>

@@ -6,7 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { mergeMap, of, Subscription } from 'rxjs';
-import { User } from 'src/app/core/interfaces/user.interface';
+import { User } from 'src/app/users/interfaces/user.interface';
 import { Course } from 'src/app/courses/interfaces/course.interface';
 import { selectUserData } from 'src/app/store/auth/auth.selector';
 import { loadCourses } from 'src/app/store/features/courses/courses.actions';
@@ -103,6 +103,7 @@ export class InscriptionsDetailsComponent implements OnInit, AfterViewInit, OnDe
                   ...inscription,
                   course: coursesData.find(course => course.id == inscription.courseId)!.course,
                   username: usersData.find(user => user.id == inscription.userId)!.username,
+                  student: `${this.student.name} ${this.student.lastname}`
                 }
                 inscriptionsData.push(inscriptionData)
               });
