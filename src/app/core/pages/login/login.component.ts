@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(loadUsers())
     this.isAuth();
+    this.openDialog();
   }
 
   openDialog() {
@@ -46,8 +47,6 @@ export class LoginComponent implements OnInit {
     this.store.select(selectIsAuth).subscribe(isAuth => {
       if(isAuth) { //Si devuelve un usuario vaidado
         this.router.navigate(['/dashboard']);
-      } else {
-        this.openDialog();
       }
     });
   }

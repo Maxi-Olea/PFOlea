@@ -42,8 +42,8 @@
                     <input type="email" matInput formControlName="email">
                     <mat-error *ngIf="studentForm.get('email')?.touched && studentForm.get('email')?.errors?.['required']">
                         Este campo es <strong>obligatorio</strong>.
-                    </mat-error>
-                    <mat-error *ngIf="studentForm.get('email')?.touched && studentForm.get('email')?.errors?.['email']">
+                    </mat-error>               
+                    <mat-error *ngIf="studentForm.get('email')?.touched && studentForm.get('email')?.errors?.['pattern']">
                         La dirección de correo electrónico debe tener un formato <strong>valido</strong>.
                     </mat-error>                
                 </mat-form-field> 

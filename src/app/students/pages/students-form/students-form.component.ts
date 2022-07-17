@@ -22,6 +22,8 @@ export class StudentsFormComponent implements OnInit, OnDestroy {
 
   studentForm: FormGroup;
 
+  emailPattern: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
+
   studentToEdit!: Student | null;
 
   genders: string[] = ['Masculino', 'Femenino', 'No Binario', 'Otros...', 'No informar'];
@@ -36,7 +38,7 @@ export class StudentsFormComponent implements OnInit, OnDestroy {
     this.studentForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email, Validators.pattern(this.emailPattern)]],
       profile: ['', [Validators.required]],
       gender: ['', [Validators.required]],
       birthday: ['', [Validators.required]]

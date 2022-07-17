@@ -10,11 +10,9 @@ import { User } from 'src/app/users/interfaces/user.interface';
 export class UsersService {
 
   isLoggedIn:boolean = false;
-  //isLoggedIn:boolean = true;
 
 
   userData!:User | null;
-  //userData:User | null = {id: 1, username: 'Admin', name: 'Maxi', lastname: 'Olea', rol: 'admin'} //user mockeado para pruebas
   usersData:User[] = [];
   userToEdit!:User | null;
 

@@ -85,7 +85,7 @@
                     <mat-error *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['required']">
                         Este campo es <strong>obligatorio</strong>.
                     </mat-error>
-                    <mat-error *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['email']">
+                    <mat-error *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['pattern']">
                         El correo electrónico no tiene un formato válido.
                     </mat-error>                    
                 </mat-form-field>

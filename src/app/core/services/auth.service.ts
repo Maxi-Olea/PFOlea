@@ -21,21 +21,21 @@ export class AuthService {
     rol: 'admin'
   };
 
-  // authUser: AuthUser = {
-  //   isAuth: false,
-  //   userData: null
-  // };
-
   authUser: AuthUser = {
-    isAuth: true,
-    userData: {
-      id: 1,
-      username: 'molea',
-      name: 'Maxi',
-      lastname: 'Olea', 
-      rol: 'admin'
-    }
+    isAuth: false,
+    userData: null
   };
+
+  // authUser: AuthUser = {
+  //   isAuth: true,
+  //   userData: {
+  //     id: 1,
+  //     username: 'molea',
+  //     name: 'Maxi',
+  //     lastname: 'Olea', 
+  //     rol: 'admin'
+  //   }
+  // };
 
   constructor(
     private _http: HttpClient,

@@ -53,7 +53,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
         this.store.dispatch(loadUsersById({ id }))
       })
     );
-    this.store.select(selectUserByIdSuccess).subscribe((details) => {
+    this.store.select(selectUserByIdSuccess).subscribe((details) => {            
       this.user = details.user;
       this.loading = details.loading
     });
