@@ -17,8 +17,7 @@ export const initialState: Readonly<CourseState> = {
         id: 0,
         course: '',
         professor: '',
-        email: '',
-        students: []
+        email: ''
     },
     courseToEdit: null
 };

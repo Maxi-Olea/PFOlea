@@ -5,12 +5,15 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { User } from 'src/app/core/interfaces/user.interface';
 import { Course } from 'src/app/courses/interfaces/course.interface';
+import { selectUserData } from 'src/app/store/auth/auth.selector';
 import { loadCourses } from 'src/app/store/features/courses/courses.actions';
 import { selectCoursesSuccess } from 'src/app/store/features/courses/courses.selectors';
-import { editStudent } from 'src/app/store/features/students/students.actions';
+import { addInscription } from 'src/app/store/features/inscriptions/inscriptions.actions';
 import { selectStudentToEdit } from 'src/app/store/features/students/students.selectors';
 import { Student } from 'src/app/students/interfaces/student.interface';
+import { Inscription } from '../../interfaces/inscription.interface';
 
 @Component({
   selector: 'app-inscriptions-form',
@@ -21,9 +24,11 @@ export class InscriptionsFormComponent implements OnInit, OnDestroy {
   
   subscriptions: Subscription = new Subscription();
   
+  user!: User | null; // datos del usuario logueado
   studentToEdit!:Student | null; //datos del estudiante al que vamos a inscribir a un curso
   courses!: Course[]; //listado de todos los cursos disponibles
   coursesList!: Course[]; //listado los cursos disponibles para inscribirse que tiene disponible el alumno
+  inscription!: Inscription;
 
   inscriptionForm: FormGroup;
 
@@ -41,8 +46,17 @@ export class InscriptionsFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.titleService.setTitle('Formulario de Inscripción');
+    this.getUserData();
     this.getStudentToEdit();
     this.getCourses();
+  }
+
+  getUserData() {
+    this.subscriptions.add(
+      this.store.select(selectUserData).subscribe((userData) => {
+        this.user = userData;
+      })
+    );
   }
 
   getStudentToEdit() {
@@ -69,15 +83,20 @@ export class InscriptionsFormComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    this.router.navigate([`dashboard/inscriptions/${this.studentToEdit!.id}`])
+    this.router.navigate(['dashboard/inscriptions/', this.studentToEdit?.id]);
   }
 
 
   onSubmit() {
     let indexOfCourse = this.courses.findIndex((x) => x.id === this.inscriptionForm.get('course')?.value)
     let courseToAdd: Course = this.courses[indexOfCourse];
-    this.studentToEdit!.cursos! = [...this.studentToEdit!.cursos!, courseToAdd ]; // Lo hago de esta manera pq studentToEdit es un objeto inmutable
-    this.store.dispatch(editStudent({ id: this.studentToEdit!.id, student: this.studentToEdit! }));
+    this.inscription = {
+      studentId: this.studentToEdit!.id,
+      courseId: courseToAdd.id,
+      date: new Date(),
+      userId: this.user!.id
+    }
+    this.store.dispatch(addInscription({ inscription: this.inscription }));
     this._snackBar.open(`Se actualizaron los cursos de ${this.studentToEdit!.name} ${this.studentToEdit!.lastname}`, 'Ok');
     this.goBack();
   }

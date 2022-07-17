@@ -18,6 +18,8 @@ import { StudentsEffects } from './store/features/students/students.effects';
 import { CoursesEffects } from './store/features/courses/courses.effects';
 import { UsersEffects } from './store/features/users/users.effects';
 import { AuthEffects } from './store/auth/auth.effects';
+import { InscriptionsEffects } from './store/features/inscriptions/inscriptions.effects';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -35,13 +37,16 @@ import { AuthEffects } from './store/auth/auth.effects';
       AuthEffects,
       CoursesEffects,
       StudentsEffects,
-      UsersEffects
+      UsersEffects,
+      InscriptionsEffects
     ]),
 
     CoreModule,
     DashboardModule
   ],
-  providers: [],
+  providers: [
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 }}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

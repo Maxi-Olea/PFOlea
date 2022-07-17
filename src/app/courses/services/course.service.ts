@@ -15,7 +15,9 @@ export class CourseService {
 
   constructor(
     private http: HttpClient
-  ) {}private handleError(error: HttpErrorResponse) {
+  ) { }
+  
+  private handleError(error: HttpErrorResponse) {
     //Manejo de errores http frontend
     if(error) {
       console.warn(`Error de backend: ${error.status}, cuerpo del error: ${error.message}`);

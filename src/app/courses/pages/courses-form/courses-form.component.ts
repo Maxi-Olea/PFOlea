@@ -55,7 +55,6 @@ export class CoursesFormComponent implements OnInit, OnDestroy {
     Si es a editar edita el curso segun el id. finalmente actualiza los cursos en el servicio*/
     if(this.courseToEdit) { //Si se edita un curso existente
       this.courseForm.value['id'] = this.courseToEdit.id;
-      this.courseForm.value['students'] = this.courseToEdit.students;
       let id:number = this.courseToEdit.id;
       let course:Course = this.courseForm.value;
       this.store.dispatch(editCourse({ id, course }));
