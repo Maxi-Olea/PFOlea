@@ -27,7 +27,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
   usersData!:User[]; //array de todos los usuarios registrados en la app
   usr!:User | null; //datos del usuario que esta logueado en este momento
 
-  displayedColumns = ['id', 'name', 'username', 'actions'];
+  displayedColumns = ['id', 'name', 'username', 'rol', 'actions'];
   dataSource = new MatTableDataSource();
   
   constructor(
@@ -59,7 +59,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
   getUsers() {
     this.store.dispatch(loadUsers())
     this.subscriptions.add(
-      this.store.select(selectUsersSuccess).subscribe((users) => {
+      this.store.select(selectUsersSuccess).subscribe((users) => {        
       this.dataSource.data = users.users;
       this.loading = users.loading;      
       })

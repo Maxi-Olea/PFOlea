@@ -43,10 +43,38 @@
                     <mat-error *ngIf="courseForm.get('email')?.touched && courseForm.get('email')?.errors?.['required']">
                         Este campo es <strong>obligatorio</strong>.
                     </mat-error>
-                    <mat-error *ngIf="courseForm.get('email')?.touched && courseForm.get('email')?.errors?.['email']">
+                    <mat-error *ngIf="courseForm.get('email')?.touched && courseForm.get('email')?.errors?.['pattern']">
                         La dirección de correo electrónico no tiene un <strong>formato válido</strong>.
                     </mat-error>                    
                 </mat-form-field>
+                <table class="w-100">
+                    <tr>
+                        <td class="pe-2">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Cant. de Clases del Curso</mat-label>
+                                <input type="number" matInput formControlName="classes">
+                                <mat-error *ngIf="courseForm.get('classes')?.touched && courseForm.get('classes')?.errors?.['required']">
+                                    Este campo es <strong>obligatorio</strong>.
+                                </mat-error>
+                                <mat-error *ngIf="courseForm.get('classes')?.touched && courseForm.get('classes')?.errors?.['min']">
+                                    El curso debe tener por lo menos un total de <strong>5 clases</strong>.
+                                </mat-error>                    
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Cant. de Horas del Curso</mat-label>
+                                <input type="number" matInput formControlName="hours">
+                                <mat-error *ngIf="courseForm.get('hours')?.touched && courseForm.get('hours')?.errors?.['required']">
+                                    Este campo es <strong>obligatorio</strong>.
+                                </mat-error>
+                                <mat-error *ngIf="courseForm.get('hours')?.touched && courseForm.get('hours')?.errors?.['min']">
+                                    El curso debe tener por lo menos un total de <strong>10 horas</strong>.
+                                </mat-error>                    
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </table>
                 
             </mat-card-content>
             <mat-card-actions class="text-center">

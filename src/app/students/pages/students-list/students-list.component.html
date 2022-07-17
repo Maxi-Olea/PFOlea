@@ -1,6 +1,6 @@
 <app-loading-spinner *ngIf="loading"></app-loading-spinner>
 
-<div *ngIf="!loading" class="container py-2">
+<div  class="container py-2">
     
     <button [ngClass]="user!.rol === 'admin' ? '' : 'd-none'" (click)="onClickAdd()" class="mb-2" mat-fab color="primary" aria-label="add button" matTooltip="Agregar un nuevo estudiante">
       <mat-icon>add</mat-icon>
@@ -24,6 +24,12 @@
         <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef> E-mail </th>
           <td class="fw-bold" mat-cell *matCellDef="let student"> {{ student.email }} </td>
+        </ng-container>
+  
+        <!-- Profile Column -->
+        <ng-container matColumnDef="profile">
+          <th mat-header-cell *matHeaderCellDef> Perfil </th>
+          <td class="fw-bold" mat-cell *matCellDef="let student"> {{ student.profile }} </td>
         </ng-container>
             
         <!-- Actions Column -->

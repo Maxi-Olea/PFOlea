@@ -30,7 +30,7 @@ export class StudentsListComponent implements OnInit, AfterViewInit, OnDestroy {
   studentsData$: Observable<Student[]> = new Observable()
 
 
-  displayedColumns = ['id', 'name', 'email', 'actions'];
+  displayedColumns = ['id', 'name', 'email', 'profile', 'actions'];
   dataSource = new MatTableDataSource<Student>();
 
   constructor(

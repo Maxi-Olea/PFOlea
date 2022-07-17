@@ -19,7 +19,7 @@ export const initialState: Readonly<StudentState> = {
         lastname: '',
         email: '',
         birthday: new Date(),
-        cursos: []
+        // cursos: []
     },
     studentToEdit: null
 };

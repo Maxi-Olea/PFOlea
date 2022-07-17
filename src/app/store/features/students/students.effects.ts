@@ -54,7 +54,12 @@ export class StudentsEffects {
             ofType(editStudent),
             mergeMap((student) => this.studentsService.editStudentById(student.id, student.student)
             .pipe(
-                map((x) =>  loadStudentById({ id: x.id })),
+                map((x) => {
+                    return(
+                        loadStudentById({ id: x.id }),
+                        loadStudents()
+                    )
+                }),
                 catchError(() => EMPTY)
             ))
         )

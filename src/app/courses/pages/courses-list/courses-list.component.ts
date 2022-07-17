@@ -38,7 +38,6 @@ export class CoursesListComponent implements OnInit, AfterViewInit, OnDestroy {
     private store: Store
   ) { 
     store.select(selectCoursesSuccess).subscribe((res) => {
-      console.log('res: ', res);
       this.dataSource.data = res.courses;
       this.loading = res.loading;
     })

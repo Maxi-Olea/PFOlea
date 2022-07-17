@@ -25,6 +25,9 @@ export class UsersFormComponent implements OnInit, OnDestroy {
 
   userForm: FormGroup
 
+  emailPattern: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
+  phonePattern: string = "^((\\+91-?)|0)?[0-9]{10}$";
+
   userToEdit!:User | null;
 
   roles:Rol[] = [{value:'admin', viewValue:'Administrador'}, {value:'user', viewValue:'Usuario'}];
@@ -40,10 +43,12 @@ export class UsersFormComponent implements OnInit, OnDestroy {
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
       lastname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
       username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
-      email: ['', [Validators.required, Validators.email]],
+      rol: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email, Validators.pattern(this.emailPattern)]],
+      address: ['', [Validators.required, Validators.maxLength(50)]],
+      phone: ['', [Validators.required, Validators.pattern(this.phonePattern)]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
       checkpass: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
-      rol: ['', [Validators.required]],
     }, { validator: this.checkPassword });
   }
 
@@ -62,8 +67,10 @@ export class UsersFormComponent implements OnInit, OnDestroy {
         this.userForm.get('name')?.patchValue(this.userToEdit.name)
         this.userForm.get('lastname')?.patchValue(this.userToEdit.lastname)
         this.userForm.get('username')?.patchValue(this.userToEdit.username)
-        this.userForm.get('email')?.patchValue(this.userToEdit.email)
         this.userForm.get('rol')?.patchValue(this.userToEdit.rol)
+        this.userForm.get('email')?.patchValue(this.userToEdit.email)
+        this.userForm.get('address')?.patchValue(this.userToEdit.address)
+        this.userForm.get('phone')?.patchValue(this.userToEdit.phone)
       }
   }
 

@@ -19,6 +19,8 @@ export class CoursesFormComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription = new Subscription();
 
+  emailPattern: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
+
   courseForm: FormGroup;
   courseToEdit!: Course | null;
   
@@ -32,7 +34,9 @@ export class CoursesFormComponent implements OnInit, OnDestroy {
     this.courseForm = this.fb.group({
       course: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
       professor: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
+      classes: ['', [Validators.required, Validators.min(5)]],
+      hours: ['', [Validators.required, Validators.min(10)]],
     })
   }
 
@@ -47,6 +51,8 @@ export class CoursesFormComponent implements OnInit, OnDestroy {
       this.courseForm.get('course')?.patchValue(this.courseToEdit.course)
       this.courseForm.get('professor')?.patchValue(this.courseToEdit.professor)
       this.courseForm.get('email')?.patchValue(this.courseToEdit.email)
+      this.courseForm.get('classes')?.patchValue(this.courseToEdit.classes)
+      this.courseForm.get('hours')?.patchValue(this.courseToEdit.hours)
     }
   }
 

@@ -91,8 +91,6 @@ export class AuthService {
   login(username: string, password:string): Observable<AuthUser> {
     this.store.select(selectUsersSuccess).subscribe((usersData) => {
       const users = usersData.users;
-      console.log('cargo los usuarios?', users);
-      
       let user = users.find((usr) => usr.username === username);
       if(user && user.password === password) {
         this.setIsLoggedIn(true, user);

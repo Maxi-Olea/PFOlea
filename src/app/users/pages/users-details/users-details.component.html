@@ -11,16 +11,7 @@
         <mat-card-header>
             <mat-card-title>Datos del usuario {{ user.username }} </mat-card-title>
         </mat-card-header>
-        <mat-card-actions align="end">
-            <button [ngClass]="usr!.rol === 'admin' ? '' : 'd-none'" (click)="onClickEdit()" 
-                class="m-2" mat-mini-fab color="primary" aria-label="edit button" matTooltip="Editar datos del usuario">
-                <mat-icon>edit</mat-icon>
-            </button>
-            <button [ngClass]="usr!.rol === 'admin' ? '' : 'd-none'" (click)="onDeleteuser()" 
-                    class="m-2" mat-mini-fab color="primary" aria-label="delete button" matTooltip="Eliminar el usuario">
-                <mat-icon>delete</mat-icon>
-            </button>
-        </mat-card-actions>
+        
         <mat-card-content>
             <mat-card>
                 <mat-list>                    
@@ -45,8 +36,32 @@
                         </mat-list-item>
                     </div>
                     <mat-divider></mat-divider>
+                    <div class="row">
+                        <mat-list-item>
+                            <div class="col-2" appItemName>Dirección:</div>
+                            <div class="col-10">{{ user.address }}</div>
+                        </mat-list-item>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class="row">
+                        <mat-list-item>
+                            <div class="col-2" appItemName>Telefono:</div>
+                            <div class="col-10">{{ user.phone }}</div>
+                        </mat-list-item>
+                    </div>
+                    <mat-divider></mat-divider>
                 </mat-list>
             </mat-card>
         </mat-card-content>
+        <mat-card-actions align="end">
+            <button [ngClass]="usr!.rol === 'admin' ? '' : 'd-none'" (click)="onClickEdit()" 
+                class="m-2" mat-mini-fab color="primary" aria-label="edit button" matTooltip="Editar datos del usuario">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button [ngClass]="usr!.rol === 'admin' ? '' : 'd-none'" (click)="onDeleteuser()" 
+                    class="m-2" mat-mini-fab color="primary" aria-label="delete button" matTooltip="Eliminar el usuario">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </mat-card-actions>
     </mat-card>
 </div>

@@ -1,11 +1,11 @@
-<div class="container">
+<div class="container px-4">
     <div class="d-flex align-items-end">
         <button [routerLink]="'..'" class="m-2" mat-fab color="primary" aria-label="back button" matTooltip="Volver a estudiantes">
                     <mat-icon>arrow_back_ios_new</mat-icon>
                 </button>
         <h1 appTitles>Formulario de Alumno</h1>
     </div>
-    <mat-card class="student-card p-4">
+    <mat-card class="student-card">
         <mat-card-header>
             <mat-card-title appFontSize>Agregar información del estudiante</mat-card-title>
         </mat-card-header>
@@ -46,17 +46,50 @@
                     <mat-error *ngIf="studentForm.get('email')?.touched && studentForm.get('email')?.errors?.['email']">
                         La dirección de correo electrónico debe tener un formato <strong>valido</strong>.
                     </mat-error>                
-                </mat-form-field>               
-                <mat-form-field color="accent" appearance="fill">
-                    <mat-label>Fecha de nacimiento</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="birthday">
-                    <mat-hint>MM/DD/AAAA</mat-hint>
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker color="primary"></mat-datepicker>
-                    <mat-error *ngIf="studentForm.get('birthday')?.touched && studentForm.get('birthday')?.errors?.['required']">
-                        Este campo es <strong>obligatorio</strong>.
+                </mat-form-field> 
+                
+                <table>
+                    <tr>
+                        <td>
+                            <mat-form-field appearance="fill">
+                                <mat-label>Género</mat-label>
+                                <mat-select formControlName="gender">
+                                  <mat-option *ngFor="let gender of genders" [value]="gender">
+                                    {{gender}}
+                                  </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="studentForm.get('profile')?.touched && studentForm.get('profile')?.errors?.['required']">
+                                    Debe seleccionar un rol de usuario.
+                                </mat-error>
+                              </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field color="accent" appearance="fill">
+                                <mat-label>Fecha de nacimiento</mat-label>
+                                <input matInput [matDatepicker]="picker" placeholder="MM/DD/AAAA" formControlName="birthday">
+                                <!-- <mat-hint>MM/DD/AAAA</mat-hint> -->
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker color="primary"></mat-datepicker>
+                                <mat-error *ngIf="studentForm.get('birthday')?.touched && studentForm.get('birthday')?.errors?.['required']">
+                                    Este campo es <strong>obligatorio</strong>.
+                                </mat-error>
+                            </mat-form-field>  
+                            
+                        </td>
+                    </tr>
+                </table>
+                <mat-form-field appearance="fill">
+                    <mat-label>Perfil</mat-label>
+                    <mat-select formControlName="profile">
+                      <mat-option *ngFor="let profile of profiles" [value]="profile">
+                        {{profile}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="studentForm.get('profile')?.touched && studentForm.get('profile')?.errors?.['required']">
+                        Debe seleccionar un rol de usuario.
                     </mat-error>
-                </mat-form-field>       
+                  </mat-form-field>
+                     
             </mat-card-content>
             <mat-card-actions class="text-center">
                 <button type="submit" mat-raised-button color="primary" [disabled]="this.studentForm.invalid" >Agregar Estudiante</button>

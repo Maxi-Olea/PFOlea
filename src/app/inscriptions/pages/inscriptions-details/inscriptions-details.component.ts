@@ -92,10 +92,10 @@ export class InscriptionsDetailsComponent implements OnInit, AfterViewInit, OnDe
             let usersData:User[] = [];
             if(inscriptions.inscriptions.length > 0) {
               this.store.select(selectCoursesSuccess).subscribe(courses => {
-                coursesData = courses.courses
+                coursesData = courses.courses                
               })
               this.store.select(selectUsersSuccess).subscribe(users => {
-                usersData = users.users
+                usersData = users.users                
               })
 
               inscriptions.inscriptions.forEach(inscription => { //Recupero la información de los cursos y usuarios x inscripción

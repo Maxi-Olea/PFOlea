@@ -9,5 +9,5 @@ export interface Student {
     profile?: string;
     gender?: string;
     birthday?: Date;
-    cursos?: Course [];
+    //cursos?: Course [];
 }

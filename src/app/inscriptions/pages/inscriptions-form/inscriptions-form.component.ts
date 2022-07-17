@@ -63,9 +63,7 @@ export class InscriptionsFormComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.store.select(selectStudentToEdit).subscribe((studentData) => {
         if(studentData) {
-          this.studentToEdit = { ...studentData };
-          console.log('studentToEdit:', this.studentToEdit);
-          
+          this.studentToEdit = { ...studentData };          
         } else {
           this.router.navigate(['dashboard/inscriptions/list']);
         }
