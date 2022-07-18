@@ -99,7 +99,6 @@ export class StudentsDetailsComponent implements OnInit, OnDestroy {
       })
       
       );
-      console.log('inscriptions', this.inscriptionsData);
   }
 
   onClickEdit() {
